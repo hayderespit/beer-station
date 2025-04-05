@@ -1,20 +1,26 @@
 'use client';
 import BottomTabs from '@/components/bottom-tabs/bottom-tabs';
 import Container from '@/components/container';
-import { Basket, House, User } from '@phosphor-icons/react';
+import { InternalLinks } from '@/utils/constants';
+import { Basket, House } from '@phosphor-icons/react';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
-    <Container className="flex h-screen flex-col">
+    <Container className="flex h-screen flex-col pb-16">
       <div className="flex-1 overflow-y-auto">{children}</div>
-      <BottomTabs activeTab="orders">
+      <BottomTabs>
         <BottomTabs.Item
           id="home"
+          href={InternalLinks.home}
           aria-label="Home"
+          isActive={pathname.includes('/stations')}
           icon={(isHovered, isActive) => (
             <House
               style={{ transition: 'font-size 0.2s ease' }}
@@ -25,7 +31,9 @@ export default function RootLayout({
         />
         <BottomTabs.Item
           id="orders"
+          href="/orders"
           aria-label="Orders"
+          isActive={pathname.includes('/ordes')}
           icon={(isHovered, isActive) => (
             <Basket
               style={{ transition: 'font-size 0.2s ease' }}
@@ -34,7 +42,7 @@ export default function RootLayout({
             />
           )}
         />
-        <BottomTabs.Item
+        {/* <BottomTabs.Item
           id="profile"
           aria-label="Profile"
           icon={(isHovered, isActive) => (
@@ -44,7 +52,7 @@ export default function RootLayout({
               weight={isHovered || isActive ? 'fill' : 'regular'}
             />
           )}
-        />
+        /> */}
       </BottomTabs>
     </Container>
   );

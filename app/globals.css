@@ -12,6 +12,8 @@
   --font-mono: var(--font-poppins-mono);
   --color-primary: #eb0029;
   --color-tab-inactive: #e2e2e2;
+  --color-gallery: #ececec;
+  --color-manatee: #8d92a3;
 }
 
 @media (prefers-color-scheme: dark) {

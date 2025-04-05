@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "migrate": "prisma migrate dev && prisma generate",
+    "generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
+    "@prisma/client": "6.5.0",
     "axios": "^1.8.4",
     "next": "15.2.4",
     "prettier": "^3.5.3",
@@ -26,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "eslint-config-prettier": "^10.1.1",
+    "prisma": "^6.5.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

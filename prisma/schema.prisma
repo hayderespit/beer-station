@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Station {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+
+  @@map("stations")
+}
+
+model Product {
+  id           String         @id @default(uuid())
+  name         String
+  description  String?
+  price        Float          @default(0)
+  imageUrl     String
+  rating       Float?         @default(1)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  RoundProduct RoundProduct[]
+
+  @@map("products")
+}
+
+enum OrderStatus {
+  open
+  payed
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  stationId Int
+  status    OrderStatus @default(open)
+  total     Float       @default(0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  station Station @relation(fields: [stationId], references: [id], onDelete: NoAction)
+  rounds  Round[]
+
+  @@map("orders")
+}
+
+model Round {
+  id        String         @id @default(uuid())
+  orderId   String
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  items     RoundProduct[]
+
+  @@map("rounds")
+}
+
+model RoundProduct {
+  id        String   @id @default(uuid())
+  roundId   String
+  productId String
+  quantity  Int      @default(1)
+  price     Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  round   Round   @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: NoAction)
+
+  @@map("round_products")
+}

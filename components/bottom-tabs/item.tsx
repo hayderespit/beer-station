@@ -1,5 +1,6 @@
 'use client';
 import { BottomTabsContext } from '@/context/bottom-tabs-context';
+import Link from 'next/link';
 import { FC, ReactNode, useContext, useState } from 'react';
 
 type ItemProps = {
@@ -7,12 +8,14 @@ type ItemProps = {
   label?: string;
   children?: ReactNode;
   icon?: (isHovered: boolean, isActive: boolean) => ReactNode;
+  href: string;
+  isActive?: boolean;
 };
 
-const Item: FC<ItemProps> = ({ id, label, children, icon, ...rest }) => {
-  const { onTabChange, activeTab } = useContext(BottomTabsContext);
+const Item: FC<ItemProps> = (props) => {
+  const { id, label, children, icon, href, isActive, ...rest } = props;
+  const { onTabChange } = useContext(BottomTabsContext);
   const [isHovered, setIsHovered] = useState(false);
-  const isActive = activeTab === id;
 
   const handleOnTabChange = () => {
     if (onTabChange) {
@@ -21,7 +24,8 @@ const Item: FC<ItemProps> = ({ id, label, children, icon, ...rest }) => {
   };
 
   return (
-    <button
+    <Link
+      href={href}
       type="button"
       className={`group inline-flex cursor-pointer flex-col items-center justify-center px-5 dark:hover:bg-gray-800 ${isActive ? 'text-primary dark:text-primary' : ''}`}
       onClick={handleOnTabChange}
@@ -35,7 +39,7 @@ const Item: FC<ItemProps> = ({ id, label, children, icon, ...rest }) => {
               ? 'test text-primary dark:text-primary'
               : 'text-gray-500 dark:text-gray-400'
           }`}>
-          {icon(isHovered, isActive)}
+          {icon(isHovered, !!isActive)}
         </span>
       ) : (
         children
@@ -49,7 +53,7 @@ const Item: FC<ItemProps> = ({ id, label, children, icon, ...rest }) => {
         }`}>
         {!!label && label}
       </span>
-    </button>
+    </Link>
   );
 };
 

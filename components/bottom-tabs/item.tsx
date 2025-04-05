@@ -9,7 +9,7 @@ type ItemProps = {
   icon?: (isHovered: boolean, isActive: boolean) => ReactNode;
 };
 
-const Item: FC<ItemProps> = ({ id, label, children, icon }) => {
+const Item: FC<ItemProps> = ({ id, label, children, icon, ...rest }) => {
   const { onTabChange, activeTab } = useContext(BottomTabsContext);
   const [isHovered, setIsHovered] = useState(false);
   const isActive = activeTab === id;
@@ -26,7 +26,8 @@ const Item: FC<ItemProps> = ({ id, label, children, icon }) => {
       className={`group inline-flex cursor-pointer flex-col items-center justify-center px-5 dark:hover:bg-gray-800 ${isActive ? 'text-primary dark:text-primary' : ''}`}
       onClick={handleOnTabChange}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}>
+      onMouseLeave={() => setIsHovered(false)}
+      {...rest}>
       {icon ? (
         <span
           className={`${

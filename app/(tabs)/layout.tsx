@@ -14,6 +14,7 @@ export default function RootLayout({
       <BottomTabs activeTab="orders">
         <BottomTabs.Item
           id="home"
+          aria-label="Home"
           icon={(isHovered, isActive) => (
             <House
               style={{ transition: 'font-size 0.2s ease' }}
@@ -24,6 +25,7 @@ export default function RootLayout({
         />
         <BottomTabs.Item
           id="orders"
+          aria-label="Orders"
           icon={(isHovered, isActive) => (
             <Basket
               style={{ transition: 'font-size 0.2s ease' }}
@@ -34,6 +36,7 @@ export default function RootLayout({
         />
         <BottomTabs.Item
           id="profile"
+          aria-label="Profile"
           icon={(isHovered, isActive) => (
             <User
               style={{ transition: 'font-size 0.2s ease' }}

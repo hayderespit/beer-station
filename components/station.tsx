@@ -14,7 +14,7 @@ const Station: FC<StationProps> = (props) => {
   return (
     <Link
       href={url}
-      className={`flex h-24 w-24 items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-700 ${bgColor}`}>
+      className={`flex h-24 w-24 items-center justify-center rounded-lg bg-gray-200 active:bg-gray-300 dark:bg-gray-700 ${bgColor}`}>
       Station {number}
     </Link>
   );

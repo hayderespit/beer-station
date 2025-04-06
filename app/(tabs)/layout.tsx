@@ -1,6 +1,5 @@
 'use client';
 import BottomTabs from '@/components/bottom-tabs/bottom-tabs';
-import Container from '@/components/container';
 import { InternalLinks } from '@/utils/constants';
 import { Basket, House } from '@phosphor-icons/react';
 import { usePathname } from 'next/navigation';
@@ -13,8 +12,8 @@ export default function RootLayout({
   const pathname = usePathname();
 
   return (
-    <Container className="flex h-screen flex-col pb-16">
-      <div className="flex-1 overflow-y-auto">{children}</div>
+    <>
+      {children}
       <BottomTabs>
         <BottomTabs.Item
           id="home"
@@ -54,6 +53,6 @@ export default function RootLayout({
           )}
         /> */}
       </BottomTabs>
-    </Container>
+    </>
   );
 }

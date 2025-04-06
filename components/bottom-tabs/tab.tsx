@@ -1,5 +1,5 @@
 'use client';
-import { BottomTabsContext } from '@/context/bottom-tabs-context';
+import { TabsContext } from '@/context/tabs-context';
 import Link from 'next/link';
 import { FC, ReactNode, useContext, useState } from 'react';
 
@@ -12,9 +12,9 @@ type ItemProps = {
   isActive?: boolean;
 };
 
-const Item: FC<ItemProps> = (props) => {
+const Tab: FC<ItemProps> = (props) => {
   const { id, label, children, icon, href, isActive, ...rest } = props;
-  const { onTabChange } = useContext(BottomTabsContext);
+  const { onTabChange } = useContext(TabsContext);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleOnTabChange = () => {
@@ -57,4 +57,4 @@ const Item: FC<ItemProps> = (props) => {
   );
 };
 
-export default Item;
+export default Tab;

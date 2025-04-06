@@ -26,7 +26,7 @@ export default async function Page({
         <div className="absolute -bottom-1 left-0 h-6 w-full rounded-t-3xl bg-white" />
       </div>
 
-      <ProductDetail product={product} />
+      <ProductDetail product={product} stationId={id} />
     </Container>
   );
 }

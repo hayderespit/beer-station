@@ -32,7 +32,7 @@ export default function RootLayout({
           id="orders"
           href="/orders"
           aria-label="Orders"
-          isActive={pathname.includes('/ordes')}
+          isActive={pathname.includes('/orders')}
           icon={(isHovered, isActive) => (
             <Basket
               style={{ transition: 'font-size 0.2s ease' }}

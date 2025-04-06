@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -53,6 +54,7 @@ model Order {
 model Round {
   id        String         @id @default(uuid())
   orderId   String
+  closedAt  DateTime?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)

@@ -6,3 +6,7 @@ export const formatCurrency = (value: number): string => {
     maximumFractionDigits: 0,
   }).format(value)}`;
 };
+
+export const getErrorMessage = (error: unknown) => {
+  return error instanceof Error ? error.message : error?.toString();
+};

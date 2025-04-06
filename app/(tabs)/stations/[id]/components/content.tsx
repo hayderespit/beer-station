@@ -1,6 +1,7 @@
 'use client';
 import Product from '@/components/product';
 import Tabs from '@/components/tabs';
+import { CartProduct } from '@/repository/types';
 import { InternalLinks } from '@/utils/constants';
 import Prisma from '@prisma/client';
 import React, { FC, useState } from 'react';
@@ -13,10 +14,11 @@ enum TabList {
 type Props = {
   stationId: number;
   products: Prisma.Product[];
+  cartProducts: CartProduct[];
 };
 
-const ProductList: FC<Props> = (props) => {
-  const { products, stationId } = props;
+const Content: FC<Props> = (props) => {
+  const { products, stationId, cartProducts } = props;
   const [activeTab, setActiveTab] = useState<string>(TabList.products);
 
   return (
@@ -45,14 +47,27 @@ const ProductList: FC<Props> = (props) => {
         )}
 
         {activeTab === TabList.cart && (
-          <div>
-            <h2 className="text-lg font-semibold">Shopping Cart</h2>
-            <p>Your shopping cart is empty.</p>
-          </div>
+          <>
+            {cartProducts.map((item) => {
+              return (
+                <Product
+                  key={item.id}
+                  href={InternalLinks.productDetail(stationId, item.productId)}
+                  imageUrl={item.product.imageUrl}
+                  name={item.product.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                />
+              );
+            })}
+            {cartProducts.length === 0 && (
+              <div className="text-center text-gray-500">No products in cart</div>
+            )}
+          </>
         )}
       </div>
     </>
   );
 };
 
-export default ProductList;
+export default Content;

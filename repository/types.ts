@@ -9,3 +9,15 @@ export type StationWithOrders = Prisma.StationGetPayload<{
     };
   };
 }>;
+
+export type OrderWithRounds = Prisma.OrderGetPayload<{
+  include: {
+    rounds: true;
+  };
+}>;
+
+export type CartProduct = Prisma.RoundProductGetPayload<{
+  include: {
+    product: true;
+  };
+}>;

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 export const button = tv({
@@ -6,7 +6,6 @@ export const button = tv({
   variants: {
     color: {
       primary: 'bg-primary text-white',
-      neutral: 'bg-zinc-500 text-black dark:text-white',
     },
     flat: {
       true: 'bg-transparent',
@@ -21,22 +20,30 @@ export const button = tv({
       flat: true,
       class: 'bg-primary/40',
     },
-    {
-      color: 'neutral',
-      flat: true,
-      class: 'bg-zinc-500/20',
-    },
   ],
 });
 
 type ButtonVariants = VariantProps<typeof button>;
 
-type ButtonProps = ButtonVariants & {
-  children: ReactNode;
-};
+type ButtonProps = ButtonVariants &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    children: ReactNode;
+  };
 
-const Button = ({ className, ...props }: ButtonProps & { className?: string }) => {
-  return <button className={button({ className, ...props })}>{props.children}</button>;
+const Button = ({
+  className,
+  children,
+  color,
+  flat,
+  onClick,
+  ...rest
+}: ButtonProps & { className?: string }) => {
+  const classes = button({ className, color, flat });
+  return (
+    <button onClick={onClick} className={classes} {...rest}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

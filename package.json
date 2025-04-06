@@ -13,6 +13,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@bprogress/next": "^3.2.10",
     "@phosphor-icons/react": "^2.1.7",
     "@prisma/client": "6.5.0",
     "axios": "^1.8.4",
@@ -21,7 +22,9 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-variants": "^1.0.0"
+    "react-hot-toast": "^2.5.2",
+    "tailwind-variants": "^1.0.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

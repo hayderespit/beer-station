@@ -1,5 +1,6 @@
 'use client';
 import { TabsContext } from '@/context/tabs-context';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import React, { FC, useContext } from 'react';
 
 type Props = {
@@ -11,8 +12,15 @@ const Tab: FC<Props> = (props) => {
   const { label, id, ...rest } = props;
   const { onTabChange, activeTab } = useContext(TabsContext);
   const isActive = activeTab === id;
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleOnTabChange = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set('tab', id);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
     if (onTabChange) {
       onTabChange(id);
     }

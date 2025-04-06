@@ -4,6 +4,7 @@ import Tabs from '@/components/tabs';
 import { CartProduct } from '@/repository/types';
 import { InternalLinks } from '@/utils/constants';
 import Prisma from '@prisma/client';
+import { useSearchParams } from 'next/navigation';
 import React, { FC, useState } from 'react';
 
 enum TabList {
@@ -19,7 +20,9 @@ type Props = {
 
 const Content: FC<Props> = (props) => {
   const { products, stationId, cartProducts } = props;
-  const [activeTab, setActiveTab] = useState<string>(TabList.products);
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') || TabList.products;
+  const [activeTab, setActiveTab] = useState<string>(initialTab);
 
   return (
     <>
@@ -52,7 +55,7 @@ const Content: FC<Props> = (props) => {
               return (
                 <Product
                   key={item.id}
-                  href={InternalLinks.productDetail(stationId, item.productId)}
+                  href={`${InternalLinks.productDetail(stationId, item.productId)}?quantity=${item.quantity}`}
                   imageUrl={item.product.imageUrl}
                   name={item.product.name}
                   price={item.price}

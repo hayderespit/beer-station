@@ -4,6 +4,7 @@ import Button from '@/components/button';
 import Rating from '@/components/rating';
 import { formatCurrency } from '@/utils/helper';
 import { Product } from '@prisma/client';
+import { useSearchParams } from 'next/navigation';
 import React, { FC, useState } from 'react';
 
 type Props = {
@@ -12,7 +13,9 @@ type Props = {
 };
 
 const ProductDetail: FC<Props> = ({ product, stationId }) => {
-  const [quantity, setQuantity] = useState(1);
+  const params = useSearchParams();
+  const initialQuantity = params.get('quantity');
+  const [quantity, setQuantity] = useState(Number(initialQuantity) || 1);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleIncrease = () => {

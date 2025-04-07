@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
   return (
     <Container className="flex h-screen flex-col pb-16">
       <div className="flex flex-row items-center py-6">
-        <BackButton />
+        <BackButton href="/stations" />
         <h1 className="flex-1 text-2xl font-bold">Station #{id}</h1>
       </div>
 

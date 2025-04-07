@@ -1,5 +1,5 @@
 'use client';
-import { closeRound } from '@/actions/cart-actions';
+import { closeRound, removeProductFromCart } from '@/app/(tabs)/stations/actions';
 import Button from '@/components/button';
 import Product from '@/components/product';
 import Tabs from '@/components/tabs';
@@ -34,10 +34,18 @@ const Content: FC<Props> = (props) => {
     const { ok, message } = await closeRound(stationId);
     setLoading(false);
     if (ok) {
-      Toast.success(String(message));
+      Toast.success(message as string);
     } else {
-      Toast.error(String(message));
+      Toast.error(message as string);
     }
+  };
+
+  const handleRemoveItem = async (productId: string) => {
+    Toast.promise(removeProductFromCart(productId, stationId), {
+      loading: 'Removing item...',
+      success: (data) => data.message as string,
+      error: (err) => err.message as string,
+    });
   };
 
   return (
@@ -76,6 +84,7 @@ const Content: FC<Props> = (props) => {
                   name={item.product.name}
                   price={item.price}
                   quantity={item.quantity}
+                  onRemove={() => handleRemoveItem(item.id)}
                 />
               );
             })}

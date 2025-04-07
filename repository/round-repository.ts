@@ -69,6 +69,14 @@ class RoundRepository extends BaseRepository {
       },
     });
   }
+
+  async removeProductCart(id: string): Promise<RoundProduct> {
+    return this.prisma.roundProduct.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
 
 export const roundRepository = new RoundRepository();

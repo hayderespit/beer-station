@@ -1,5 +1,5 @@
 'use client';
-import { addProductToCart } from '@/actions/cart-actions';
+import { addProductToCart } from '@/app/(tabs)/stations/actions';
 import Button from '@/components/button';
 import Rating from '@/components/rating';
 import { formatCurrency } from '@/utils/helper';
@@ -33,9 +33,9 @@ const ProductDetail: FC<Props> = ({ product, stationId }) => {
     setIsLoading(false);
 
     if (ok) {
-      Toast.success(String(message));
+      Toast.success(message as string);
     } else {
-      Toast.error(String(message));
+      Toast.error(message as string);
     }
   };
 

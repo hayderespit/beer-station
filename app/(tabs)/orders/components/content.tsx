@@ -29,7 +29,8 @@ const Content: FC<Props> = ({ orders }) => {
       createdAt: order.createdAt,
       status: order.status,
       totalPrice: order.rounds.reduce(
-        (sum, round) => sum + round.items.reduce((itemSum, item) => itemSum + item.price, 0),
+        (sum, round) =>
+          sum + round.items.reduce((itemSum, item) => itemSum + item.price * item.quantity, 0),
         0,
       ),
     }));
@@ -58,6 +59,7 @@ const Content: FC<Props> = ({ orders }) => {
             {inprogress.map((order) => {
               return (
                 <Order
+                  id={order.id}
                   key={order.id}
                   stationId={order.stationId}
                   totalPrice={order.totalPrice}
@@ -77,10 +79,12 @@ const Content: FC<Props> = ({ orders }) => {
               return (
                 <Order
                   key={order.id}
+                  id={order.id}
                   stationId={order.stationId}
                   totalPrice={order.totalPrice}
                   numberOfRounds={order.numberOfRounds}
                   date={formatDate(order.createdAt, 'MMM dd hh:mm a')}
+                  status={order.status}
                 />
               );
             })}

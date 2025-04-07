@@ -15,6 +15,7 @@
   --color-gallery: #ececec;
   --color-manatee: #8d92a3;
   --color-black: #020202;
+  --color-success: #4baf31;
 }
 
 @media (prefers-color-scheme: dark) {

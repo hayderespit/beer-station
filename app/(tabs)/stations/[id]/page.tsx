@@ -7,7 +7,6 @@ export default async function Page({ params }: { params: Promise<{ id: number }>
   const { id } = await params;
   const products = await productRepository.getAll();
   const cartProducts = await productRepository.getCartProducts(Number(id));
-  console.log('>> cartProducts:', cartProducts);
 
   return (
     <Container className="flex h-screen flex-col pb-16">

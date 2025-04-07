@@ -61,3 +61,17 @@ export async function closeRound(stationId: number) {
     return { ok: false, message: getErrorMessage(error) };
   }
 }
+
+export async function removeProductFromCart(id: string, stationId: number) {
+  try {
+    await roundRepository.removeProductCart(id);
+
+    revalidatePath('/stations');
+    revalidatePath(`/stations/${stationId}`);
+
+    return { ok: true, message: 'Product removed from cart successfully' };
+  } catch (error) {
+    logger.error('Error removing product from cart', error);
+    return { ok: false, message: getErrorMessage(error) };
+  }
+}

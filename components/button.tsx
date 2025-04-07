@@ -10,6 +10,9 @@ export const button = tv({
     flat: {
       true: 'bg-transparent',
     },
+    outlined: {
+      true: 'bg-transparent border',
+    },
     size: {
       small: 'px-2 py-1 text-sm',
       medium: 'px-4 py-1.5 text-base',
@@ -29,6 +32,11 @@ export const button = tv({
       flat: true,
       class: 'bg-primary/40',
     },
+    {
+      color: 'primary',
+      outlined: true,
+      class: 'border-primary text-primary',
+    },
   ],
 });
 
@@ -45,13 +53,14 @@ const Button = ({
   children,
   color,
   flat,
+  outlined,
   size,
   onClick,
   loading,
   disabled,
   ...rest
 }: ButtonProps & { className?: string }) => {
-  const classes = button({ className, color, flat, size, loading });
+  const classes = button({ className, color, flat, outlined, size, loading });
 
   return (
     <button onClick={onClick} className={classes} disabled={disabled || loading} {...rest}>

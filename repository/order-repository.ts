@@ -1,6 +1,6 @@
-import { OrderStatus } from '@prisma/client';
+import { Order, OrderStatus } from '@prisma/client';
 import BaseRepository from './base-repository';
-import { OrderWithRoundItems, OrderWithRounds } from './types';
+import { OrderWithRoundItemProducts, OrderWithRoundItems, OrderWithRounds } from './types';
 
 class OrderRepository extends BaseRepository {
   async getStationOrder(id: number): Promise<OrderWithRounds | null> {
@@ -40,12 +40,54 @@ class OrderRepository extends BaseRepository {
     });
   }
 
+  async updateOrderStatus(id: string, status: OrderStatus): Promise<Order | null> {
+    return this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    });
+  }
+
+  async payOrder(id: string, total: number): Promise<Order | null> {
+    return this.prisma.order.update({
+      where: {
+        id,
+      },
+      data: {
+        total,
+        status: OrderStatus.payed,
+      },
+    });
+  }
+
   async getAllWithRounds(): Promise<OrderWithRoundItems[]> {
     return this.prisma.order.findMany({
       include: {
         rounds: {
           include: {
             items: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getWithRounds(id: string): Promise<OrderWithRoundItemProducts | null> {
+    return this.prisma.order.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        rounds: {
+          include: {
+            items: {
+              include: {
+                product: true,
+              },
+            },
           },
         },
       },

@@ -6,7 +6,10 @@ export default async function Page() {
   const stations = await stationRepository.getAllWithOrder();
   return (
     <Container className="flex h-screen flex-col pb-16">
-      <h1 className="py-6 text-center text-2xl font-bold">Stations</h1>
+      <div className="py-6 pl-4">
+        <h1 className="text-2xl font-bold">Stations</h1>
+        <p className="text-manatee text-md font-normal">Let’s get some beers</p>
+      </div>
 
       <section className="flex flex-row flex-wrap justify-around gap-4 md:px-4">
         {stations.map((station) => {

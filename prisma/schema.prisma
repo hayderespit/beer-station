@@ -35,6 +35,7 @@ model Product {
 enum OrderStatus {
   open
   payed
+  cancelled
 }
 
 model Order {

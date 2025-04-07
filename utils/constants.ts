@@ -5,3 +5,5 @@ export const InternalLinks = {
   productDetail: (stationId: number, productId: string) =>
     `/stations/${stationId}/products/${productId}`,
 };
+
+export const DefaultFormatDate = 'dd/MM/yyyy';

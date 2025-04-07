@@ -1,6 +1,6 @@
 import { OrderStatus } from '@prisma/client';
 import BaseRepository from './base-repository';
-import { OrderWithRounds } from './types';
+import { OrderWithRoundItems, OrderWithRounds } from './types';
 
 class OrderRepository extends BaseRepository {
   async getStationOrder(id: number): Promise<OrderWithRounds | null> {
@@ -36,6 +36,18 @@ class OrderRepository extends BaseRepository {
       },
       include: {
         rounds: true,
+      },
+    });
+  }
+
+  async getAllWithRounds(): Promise<OrderWithRoundItems[]> {
+    return this.prisma.order.findMany({
+      include: {
+        rounds: {
+          include: {
+            items: true,
+          },
+        },
       },
     });
   }

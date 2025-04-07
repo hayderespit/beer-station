@@ -16,6 +16,16 @@ export type OrderWithRounds = Prisma.OrderGetPayload<{
   };
 }>;
 
+export type OrderWithRoundItems = Prisma.OrderGetPayload<{
+  include: {
+    rounds: {
+      include: {
+        items: true;
+      };
+    };
+  };
+}>;
+
 export type CartProduct = Prisma.RoundProductGetPayload<{
   include: {
     product: true;

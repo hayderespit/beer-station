@@ -1,4 +1,4 @@
-import { Order, OrderStatus, RoundProduct } from '@prisma/client';
+import { Order, OrderStatus, Round, RoundProduct } from '@prisma/client';
 import BaseRepository from './base-repository';
 
 class RoundRepository extends BaseRepository {
@@ -49,6 +49,25 @@ class RoundRepository extends BaseRepository {
         data,
       });
     }
+  }
+
+  async openRound(orderId: string): Promise<Round> {
+    return this.prisma.round.create({
+      data: {
+        orderId,
+      },
+    });
+  }
+
+  async closeRound(id: string): Promise<Round> {
+    return this.prisma.round.update({
+      where: {
+        id,
+      },
+      data: {
+        closedAt: new Date(),
+      },
+    });
   }
 }
 

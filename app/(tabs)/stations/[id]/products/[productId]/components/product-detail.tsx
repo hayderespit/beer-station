@@ -6,6 +6,7 @@ import { formatCurrency } from '@/utils/helper';
 import { Product } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import React, { FC, useState } from 'react';
+import Toast from 'react-hot-toast';
 
 type Props = {
   product: Product;
@@ -28,13 +29,13 @@ const ProductDetail: FC<Props> = ({ product, stationId }) => {
 
   const handleAddToCart = async () => {
     setIsLoading(true);
-    const response = await addProductToCart(stationId, product.id, quantity);
+    const { ok, message } = await addProductToCart(stationId, product.id, quantity);
     setIsLoading(false);
-    console.log('>> response:', response);
-    if (response.ok) {
-      // Handle success (e.g., show a success message or update the cart)
+
+    if (ok) {
+      Toast.success(String(message));
     } else {
-      // Handle error (e.g., show an error message)
+      Toast.error(String(message));
     }
   };
 
@@ -68,30 +69,8 @@ const ProductDetail: FC<Props> = ({ product, stationId }) => {
           <p className="text-lg text-black">{formatCurrency(product.price)}</p>
         </div>
 
-        <Button color="primary" className="w-36" onClick={handleAddToCart} disabled={isLoading}>
-          {isLoading ? (
-            <svg
-              className="h-5 w-5 animate-spin text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24">
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12zm2.5-1h11a2.5 2.5 0 1 1 0-5h-11a2.5 2.5 0 1 1 0-5h11a7.5 7.5 0 1 1-15 .001A7.5 7.5 0 0 1 6.5 11z"
-              />
-            </svg>
-          ) : (
-            'Add to Cart'
-          )}
+        <Button color="primary" className="w-36" onClick={handleAddToCart} loading={isLoading}>
+          Add to Cart
         </Button>
       </div>
     </div>

@@ -1,11 +1,15 @@
 'use client';
+import { closeRound } from '@/actions/cart-actions';
+import Button from '@/components/button';
 import Product from '@/components/product';
 import Tabs from '@/components/tabs';
 import { CartProduct } from '@/repository/types';
 import { InternalLinks } from '@/utils/constants';
+import { FloppyDisk } from '@phosphor-icons/react';
 import Prisma from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import React, { FC, useState } from 'react';
+import Toast from 'react-hot-toast';
 
 enum TabList {
   products = 'products',
@@ -23,6 +27,18 @@ const Content: FC<Props> = (props) => {
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab') || TabList.products;
   const [activeTab, setActiveTab] = useState<string>(initialTab);
+  const [loading, setLoading] = useState(false);
+
+  const handleCloseRound = async () => {
+    setLoading(true);
+    const { ok, message } = await closeRound(stationId);
+    setLoading(false);
+    if (ok) {
+      Toast.success(String(message));
+    } else {
+      Toast.error(String(message));
+    }
+  };
 
   return (
     <>
@@ -63,8 +79,15 @@ const Content: FC<Props> = (props) => {
                 />
               );
             })}
-            {cartProducts.length === 0 && (
+            {cartProducts.length === 0 ? (
               <div className="text-center text-gray-500">No products in cart</div>
+            ) : (
+              <div className="mt-4 flex items-center justify-center">
+                <Button color="primary" size="large" onClick={handleCloseRound} loading={loading}>
+                  <FloppyDisk size={20} weight="bold" />
+                  Close Round
+                </Button>
+              </div>
             )}
           </>
         )}

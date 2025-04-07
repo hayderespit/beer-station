@@ -18,21 +18,46 @@ export async function addProductToCart(stationId: number, productId: string, qua
       order = await orderRepository.openOrder(Number(stationId));
     }
 
-    if (order.rounds.length) {
-      await roundRepository.upsertProduct({
-        productId,
-        roundId: order.rounds[0].id,
-        quantity,
-        price: product.price,
-      });
+    let roundId = order.rounds[0]?.id;
+
+    if (!order.rounds.length) {
+      const round = await roundRepository.openRound(order.id);
+      roundId = round.id;
     }
+
+    await roundRepository.upsertProduct({
+      productId,
+      roundId,
+      quantity,
+      price: product.price,
+    });
 
     revalidatePath('/stations');
     revalidatePath(`/stations/${stationId}`);
 
-    return { ok: true, order };
+    return { ok: true, message: 'Product added to cart successfully' };
   } catch (error) {
     logger.error('Error adding product to cart', error);
+    return { ok: false, message: getErrorMessage(error) };
+  }
+}
+
+export async function closeRound(stationId: number) {
+  try {
+    const order = await orderRepository.getStationOrder(Number(stationId));
+    if (!order || !order.rounds.length) {
+      return { ok: false, message: 'No open round found for this station' };
+    }
+
+    const round = order.rounds[0];
+    await roundRepository.closeRound(round.id);
+
+    revalidatePath('/stations');
+    revalidatePath(`/stations/${stationId}`);
+
+    return { ok: true, message: 'Round closed successfully' };
+  } catch (error) {
+    logger.error('Error closing round', error);
     return { ok: false, message: getErrorMessage(error) };
   }
 }
